@@ -1,5 +1,11 @@
 // Require the necessary discord.js classes
-import { Client, Collection, Events, GatewayIntentBits } from "discord.js";
+import {
+  Client,
+  Collection,
+  Events,
+  GatewayIntentBits,
+  Message,
+} from "discord.js";
 import { config } from "dotenv";
 
 import * as verifyCommand from "./commands/utility/verify.ts";
@@ -78,6 +84,13 @@ client.on(Events.InteractionCreate, async (interaction) => {
       });
     }
   }
+});
+
+client.on(Events.MessageCreate, async (message: Message) => {
+  // console.log("message", message.content);
+  const text: string = message.content.toLowerCase();
+  if (text.includes("train")) message.react("🚆");
+  if (text.includes("estrogen")) message.react("🇪");
 });
 
 // When the client is ready, run this code (only once).
