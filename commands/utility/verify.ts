@@ -63,11 +63,20 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
   await interaction.reply({
     content:
-      `You may want to close this ticket now, use /close or the button at the top`,
+      `Good job. The user has been sent a DM informing them where to get roles. The ticket was closed automatically.`,
     ephemeral: true,
   });
   await interaction.channel.send(
     `Hai ${target}, welcome to the server! You can pick some roles in <#1410678077939253438>`,
+  );
+
+  const dmChannel = await interaction.user.createDM()
+  dmChannel.send(
+    `Hai ${target}, welcome to NetherTrans! You can pick some roles in <#1410678077939253438>`,
+  )
+
+  await interaction.channel.send(
+    `?close`,
   );
 
   const welcomeMessageChannel = interaction.client.channels.cache.get(

@@ -91,7 +91,7 @@ client.on(Events.MessageCreate, async (message: Message) => {
   const text: string = message.content.toLowerCase();
   if (text.includes("train")) message.react("🚆");
   if (text.includes("estrogen")) message.react("🇪");
-  if (text.includes("blahaj")) message.react("1413657480004632627");
+  if (text.includes("haj")) message.react("1413657480004632627");
 });
 
 // When the client is ready, run this code (only once).
