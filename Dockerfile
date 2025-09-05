@@ -8,4 +8,4 @@ RUN deno task compile
 FROM denoland/deno:latest
 WORKDIR /app
 COPY --from=builder /app/app .
-CMD ["/app/lilly-discord"]
+CMD ["/app/app"]
