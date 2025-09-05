@@ -70,7 +70,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     `Hai ${target}, welcome to the server! You can pick some roles in <#1410678077939253438>`,
   );
 
-  const dmChannel = await interaction.user.createDM()
+  const dmChannel = await target.createDM()
   dmChannel.send(
     `Hai ${target}, welcome to NetherTrans! You can pick some roles in <#1410678077939253438>`,
   )
