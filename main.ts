@@ -1,10 +1,12 @@
 // Require the necessary discord.js classes
 import {
+  ActivityType,
   Client,
   Collection,
   Events,
   GatewayIntentBits,
   Message,
+  MessageFlags,
   RESTEvents,
 } from "discord.js";
 import { CronJob } from "cron";
@@ -124,6 +126,11 @@ async function run() {
   await client.login(TOKEN);
 
   await client.guilds.fetch(process.env.GUILD_ID);
+  if (client.user) {
+    client.user.setActivity("you counting :3", {
+      type: ActivityType.Listening,
+    });
+  }
 
   updateMemberCount(client);
   initCount(client);

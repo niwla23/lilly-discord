@@ -14,6 +14,20 @@ function getNumberFromMessage(text: string) {
   return number;
 }
 
+const logEmojis = [
+  "0️⃣",
+  "1️⃣",
+  "2️⃣",
+  "3️⃣",
+  "4️⃣",
+  "5️⃣",
+  "6️⃣",
+  "7️⃣",
+  "8️⃣",
+  "9️⃣",
+  "🔟",
+];
+
 export async function initCount(client: Client) {
   const channel = await client.channels.fetch(
     process.env.COUNTING_CHANNEL,
@@ -45,6 +59,16 @@ export async function initCount(client: Client) {
     }
     if (number == lastNumber + 1) {
       message.react("1413657480004632627");
+
+      const log2 = Math.log2(number + 1);
+      if (Number.isInteger(log2)) {
+        if (log2 < 11) {
+          message.react(logEmojis[log2]);
+        } else {
+          message.react("😱");
+        }
+      }
+
       lastNumberAuthorId = message.author.id;
       lastNumber += 1;
     } else {
