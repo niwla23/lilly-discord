@@ -5,13 +5,16 @@ import {
   Events,
   GatewayIntentBits,
   Message,
+  RESTEvents,
 } from "discord.js";
+import { CronJob } from "cron";
 import { config } from "dotenv";
 
 import * as verifyCommand from "./commands/utility/verify.ts";
 
 // import dependencies
 import { join } from "https://deno.land/std@0.224.0/path/mod.ts";
+import updateMemberCount from "./update-member-count.ts";
 
 config();
 
@@ -23,10 +26,22 @@ type ClientWCommands = { commands: Collection<string, any> } & Client;
 
 const client = new Client({
   intents: [
-    GatewayIntentBits.Guilds, // Required for most guild features
-    GatewayIntentBits.GuildMembers, // 🔑 Required to fetch members
-    GatewayIntentBits.GuildMessages, // If you want to listen to messages
-    GatewayIntentBits.MessageContent, // If you need message text
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildModeration,
+    GatewayIntentBits.GuildEmojisAndStickers,
+    GatewayIntentBits.GuildIntegrations,
+    GatewayIntentBits.GuildWebhooks,
+    GatewayIntentBits.GuildInvites,
+    GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildMessageReactions,
+    GatewayIntentBits.GuildMessageTyping,
+    GatewayIntentBits.DirectMessages,
+    GatewayIntentBits.DirectMessageReactions,
+    GatewayIntentBits.DirectMessageTyping,
+    GatewayIntentBits.MessageContent,
   ],
 }) as ClientWCommands;
 
@@ -94,6 +109,10 @@ client.on(Events.MessageCreate, async (message: Message) => {
   if (text.includes("haj")) message.react("1413657480004632627");
 });
 
+client.on(Events.GuildMemberUpdate, async (message: Message) => {
+  await updateMemberCount(client);
+});
+
 // When the client is ready, run this code (only once).
 // The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
 // It makes some properties non-nullable.
@@ -101,5 +120,11 @@ client.once(Events.ClientReady, (readyClient) => {
   console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 });
 
+client.rest.on(RESTEvents.RateLimited, () => console.log("rate limited"));
+
+// const job = new CronJob();
+
 // Log in to Discord with your client's token
 client.login(TOKEN);
+
+updateMemberCount(client);

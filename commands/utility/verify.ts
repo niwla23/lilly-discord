@@ -4,6 +4,7 @@ import {
   SlashCommandBuilder,
   TextChannel,
 } from "discord.js";
+import updateMemberCount from "../../update-member-count.ts";
 
 export const data = new SlashCommandBuilder().setName("verify").setDescription(
   "Verifies a Member",
@@ -70,10 +71,10 @@ export async function execute(interaction: ChatInputCommandInteraction) {
     `Hai ${target}, welcome to the server! You can pick some roles in <#1410678077939253438>`,
   );
 
-  const dmChannel = await target.createDM()
+  const dmChannel = await target.createDM();
   dmChannel.send(
     `Hai ${target}, welcome to NetherTrans! You can pick some roles in <#1410678077939253438>`,
-  )
+  );
 
   await interaction.channel.send(
     `?close`,

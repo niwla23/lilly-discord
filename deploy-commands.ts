@@ -56,8 +56,7 @@ try {
   );
 
   console.log(
-    `Successfully reloaded ${
-      (data as unknown[]).length
+    `Successfully reloaded ${(data as unknown[]).length
     } application (/) commands.`,
   );
 } catch (error) {
