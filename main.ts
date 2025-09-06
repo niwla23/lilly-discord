@@ -15,6 +15,7 @@ import * as verifyCommand from "./commands/utility/verify.ts";
 // import dependencies
 import { join } from "https://deno.land/std@0.224.0/path/mod.ts";
 import updateMemberCount from "./update-member-count.ts";
+import { initCount } from "./count.ts";
 
 config();
 
@@ -118,9 +119,14 @@ client.once(Events.ClientReady, (readyClient) => {
 
 client.rest.on(RESTEvents.RateLimited, () => console.log("rate limited"));
 
-// const job = new CronJob();
+async function run() {
+  // Log in to Discord with your client's token
+  await client.login(TOKEN);
 
-// Log in to Discord with your client's token
-client.login(TOKEN);
+  await client.guilds.fetch(process.env.GUILD_ID);
 
-updateMemberCount(client);
+  updateMemberCount(client);
+  initCount(client);
+}
+
+run();
