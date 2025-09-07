@@ -6,7 +6,7 @@ let lastNumber = 0;
 let lastNumberAuthorId: string | null = null;
 
 function getNumberFromMessage(text: string) {
-  const binaryFinder = /\b(?:0b)?([01]+)\b/;
+  const binaryFinder = /^(?:0b)?([01]+)\b/;
   const results = binaryFinder.exec(text);
   if (!results || results?.length == 0) return null;
 
@@ -32,7 +32,7 @@ export async function initCount(client: Client) {
   const channel = await client.channels.fetch(
     process.env.COUNTING_CHANNEL,
   ) as TextChannel;
-  const messages = await channel.messages.fetch({ limit: 10 });
+  const messages = await channel.messages.fetch({ limit: 100 });
   const latestValidMessage = messages.values().find((v) =>
     getNumberFromMessage(v.content) != null
   );
