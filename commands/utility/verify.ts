@@ -64,7 +64,7 @@ export async function execute(interaction: ChatInputCommandInteraction) {
 
   await interaction.reply({
     content:
-      `Good job. The user has been sent a DM informing them where to get roles. The ticket was closed automatically.`,
+      `Good job. The user has been sent a DM informing them where to get roles. The ticket was closed automatically, the user still has access to it. This ticket will be transcribed and deleted after 3 days of inactivity.`,
     ephemeral: true,
   });
   await interaction.channel.send(

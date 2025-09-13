@@ -18,6 +18,7 @@ import * as verifyCommand from "./commands/utility/verify.ts";
 import { join } from "https://deno.land/std@0.224.0/path/mod.ts";
 import updateMemberCount from "./update-member-count.ts";
 import { initCount } from "./count.ts";
+import deleteOldTickets from "./delete-old-tickets.ts";
 
 config();
 
@@ -104,7 +105,7 @@ client.on(Events.MessageCreate, async (message: Message) => {
   // console.log("message", message.content);
   const text: string = message.content.toLowerCase();
   if (text.includes("train")) message.react("🚆");
-  if (text.includes("estrogen")) message.react("🇪");
+  if (text.includes("estrogen")) message.react("1416500060782334012");
   if (text.includes("haj")) message.react("1413657480004632627");
 });
 
@@ -134,6 +135,14 @@ async function run() {
 
   updateMemberCount(client);
   initCount(client);
+
+  CronJob.from({
+    cronTime: "18 18 * * *",
+    onTick: function () {
+      deleteOldTickets(client, process.env.GUILD_ID);
+    },
+    start: true,
+  });
 }
 
 run();
