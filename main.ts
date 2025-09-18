@@ -107,6 +107,14 @@ client.on(Events.MessageCreate, async (message: Message) => {
   if (text.includes("train")) message.react("🚆");
   if (text.includes("estrogen")) message.react("1416500060782334012");
   if (text.includes("haj")) message.react("1413657480004632627");
+
+  const urls = text.match(/https?:\/\/(www\.)?(x\.com|twitter\.com|vxtwitter\.com|fxtwitter\.com)\S*/g);
+  if (urls) {
+    for (const url of urls) {
+      const nitterUrl = url.replace(/https?:\/\/(www\.)?(x\.com|twitter\.com|vxtwitter\.com|fxtwitter\.com)(\/.*)?/g, 'https://nitter.net$3');
+      message.reply(`View thread off X: ${nitterUrl}`)
+    }
+  }
 });
 
 client.on(Events.GuildMemberUpdate, async (message: Message) => {
@@ -138,7 +146,7 @@ async function run() {
 
   CronJob.from({
     cronTime: "18 18 * * *",
-    onTick: function () {
+    onTick: function() {
       deleteOldTickets(client, process.env.GUILD_ID);
     },
     start: true,
