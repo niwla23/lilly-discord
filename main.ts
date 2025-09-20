@@ -118,7 +118,21 @@ client.on(Events.MessageCreate, async (message: Message) => {
         /https?:\/\/(www\.)?(x\.com|twitter\.com|vxtwitter\.com|fxtwitter\.com)(\/.*)?/g,
         "https://nitter.net$3",
       );
-      message.reply(`View thread off X: ${nitterUrl}`);
+      message.reply(`View thread off Twitter: ${nitterUrl}`);
+    }
+  }
+
+  // embed tiktoks
+  const tikTokUrls = message.content.match(
+    /https?:\/\/(www\.)?(tiktok\.com)\S*/g,
+  );
+  if (tikTokUrls) {
+    for (const url of tikTokUrls) {
+      // const nitterUrl = url.replace(
+      //   /https?:\/\/(www\.)?(x\.com|twitter\.com|vxtwitter\.com|fxtwitter\.com)(\/.*)?/g,
+      //   "https://nitter.net$3",
+      // );
+      message.reply(`there ya go, embedded: ${url.replace("i", "fx")}`);
     }
   }
 
