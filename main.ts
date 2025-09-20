@@ -103,16 +103,32 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 client.on(Events.MessageCreate, async (message: Message) => {
   // console.log("message", message.content);
-  const text: string = message.content.toLowerCase();
-  if (text.includes("train")) message.react("🚆");
-  if (text.includes("estrogen")) message.react("1416500060782334012");
-  if (text.includes("haj")) message.react("1413657480004632627");
+  const textLower: string = message.content.toLowerCase();
+  if (textLower.includes("train")) message.react("🚆");
+  if (textLower.includes("estrogen")) message.react("1416500060782334012");
+  if (textLower.includes("haj")) message.react("1413657480004632627");
 
-  const urls = text.match(/https?:\/\/(www\.)?(x\.com|twitter\.com|vxtwitter\.com|fxtwitter\.com)\S*/g);
+  // replace twitter with nitter
+  const urls = textLower.match(
+    /https?:\/\/(www\.)?(x\.com|twitter\.com|vxtwitter\.com|fxtwitter\.com)\S*/g,
+  );
   if (urls) {
     for (const url of urls) {
-      const nitterUrl = url.replace(/https?:\/\/(www\.)?(x\.com|twitter\.com|vxtwitter\.com|fxtwitter\.com)(\/.*)?/g, 'https://nitter.net$3');
-      message.reply(`View thread off X: ${nitterUrl}`)
+      const nitterUrl = url.replace(
+        /https?:\/\/(www\.)?(x\.com|twitter\.com|vxtwitter\.com|fxtwitter\.com)(\/.*)?/g,
+        "https://nitter.net$3",
+      );
+      message.reply(`View thread off X: ${nitterUrl}`);
+    }
+  }
+
+  const instaUrls = message.content.match(
+    /https?:\/\/(www\.)?(instagram\.com)\S*/g,
+  );
+  if (instaUrls) {
+    for (const url of instaUrls) {
+      const replacedUrl = url.replace("instagram.com", "kkinstagram.com");
+      message.reply(`there ya go, embedded: ${replacedUrl}`);
     }
   }
 });
@@ -146,7 +162,7 @@ async function run() {
 
   CronJob.from({
     cronTime: "18 18 * * *",
-    onTick: function() {
+    onTick: function () {
       deleteOldTickets(client, process.env.GUILD_ID);
     },
     start: true,
