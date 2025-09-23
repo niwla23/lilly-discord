@@ -109,7 +109,7 @@ client.on(Events.MessageCreate, async (message: Message) => {
   if (textLower.includes("haj")) message.react("1413657480004632627");
 
   // replace twitter with nitter
-  const urls = textLower.match(
+  const urls = message.content.match(
     /https?:\/\/(www\.)?(x\.com|twitter\.com|vxtwitter\.com|fxtwitter\.com)\S*/g,
   );
   if (urls) {
@@ -128,10 +128,6 @@ client.on(Events.MessageCreate, async (message: Message) => {
   );
   if (tikTokUrls) {
     for (const url of tikTokUrls) {
-      // const nitterUrl = url.replace(
-      //   /https?:\/\/(www\.)?(x\.com|twitter\.com|vxtwitter\.com|fxtwitter\.com)(\/.*)?/g,
-      //   "https://nitter.net$3",
-      // );
       message.reply(`there ya go, embedded: ${url.replace("i", "fx")}`);
     }
   }
